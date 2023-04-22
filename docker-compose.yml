@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  cassandra:
+    image: bitnami/cassandra:latest
+    container_name: cassandra
+    environment:
+      - CASSANDRA_SEEDS=cassandra
+      - CASSANDRA_CLUSTER_NAME=cassandra-dbms
+      - CASSANDRA_RPC_ADDRESS=0.0.0.0
+      - CASSANDRA_LISTEN_ADDRESS=0.0.0.0
+      - CASSANDRA_START_RPC=true
+    volumes:
+      - ./db_scripts:/docker-entrypoint-initdb.d

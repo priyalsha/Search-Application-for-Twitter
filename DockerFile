@@ -1,0 +1,13 @@
+FROM python:3.8-slim-buster
+
+WORKDIR /db_final_project
+
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+COPY . .
+
+ENV FLASK_APP db_final_project/app.py
+ENV CASSANDRA_CONTACT_POINTS cassandra
+
+CMD ["flask", "run", "--host=0.0.0.0"]
