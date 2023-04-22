@@ -1,4 +1,5 @@
 import mysql.connector
+import json
 class user_model():
     def __init__(self):
         try:
@@ -12,4 +13,7 @@ class user_model():
         results = self.cur.fetchall()
         for row in results:
             print(row)
-        return "TABC"
+        if len(results)>0:
+            return json.dumps(results)
+        else:
+            return "No Data Found"
