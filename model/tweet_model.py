@@ -69,7 +69,11 @@ class tweet_model():
             results = []
             for row in rows:
                 results.append(dict(row._asdict()))
-
+                
+            end_time = time.time()
+            delta = end_time - start_time
+            print(f"Time taken to retrieve from Database is {delta} seconds")
+            
             if len(results)>0:
                 result = {"payload":results}
 
