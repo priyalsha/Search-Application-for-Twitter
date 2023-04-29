@@ -3,5 +3,5 @@ dbconfig = {
     "port":"3306",
     "username":"root",
     "password":"password",
-    "database":"dbms_project"
+    "database":"twitter"
     }
