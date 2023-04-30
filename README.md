@@ -1,5 +1,7 @@
 # 694_2023_Team4
 
+Link to the dataset: https://drive.google.com/drive/folders/1ZkEA2yL5fU4qehOUjU_KCcguzul9nmMf?usp=sharing
+
 Steps to Run Kafka and Cassandra:
 
 Step 1: Start zookeeper (bin/zookeeper-server-start.sh config/zookeeper.properties)
