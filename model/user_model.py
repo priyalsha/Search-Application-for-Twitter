@@ -39,6 +39,7 @@ class user_model():
 
         else:
             result = None
+
         end_time = time.time()
         delta = end_time - start_time
         print(f"Time taken to retrieve from Cache is {delta} seconds")
@@ -66,33 +67,44 @@ class user_model():
             return "No Data Found"
 
 
+    def get_specific_user(self, userid):
+        # Check if the result is already cached and not expired
+        start_time = time.time()
+        if f'specific_user_{userid}' in cache:
+            entry = cache[f'specific_user_{userid}']
+            if entry['expires_at'] > get_timestamp():
+                entry['last_accessed_at'] = get_timestamp()
+                result = entry['result']
+                end_time = time.time()
+                delta = end_time - start_time
+                print(f"Time taken to retrieve from Cache is {delta} seconds")
+            else:
+                del cache[f'specific_user_{userid}']
+                result = None
+        else:
+            result = None
 
+        # If the result is not cached or expired, execute the SQL query
+        if result is None:
+            user = (userid,)
+            self.cur.execute("SELECT * FROM users where name=%s", user)
+            result = self.cur.fetchall()
 
-# class user_model():
-#     def __init__(self):
-#         self.con = mysql.connector.connect(host=dbconfig['host'],user=dbconfig['username'],password=dbconfig['password'],database=dbconfig['database'])
-#         self.con.autocommit=True
-#         self.cur = self.con.cursor(dictionary=True)
-        
-    # def all_user_model(self):
-        
-        
-    #     self.cur.execute("SELECT * FROM users")
-    #     result = self.cur.fetchall()
-    #     if len(result)>0:
-    #         return {"payload":result}
+            end_time = time.time()
+            delta = end_time - start_time
+            print(f"Time taken to retrieve from Database is {delta} seconds")
+            
+            # Cache the result with TTL expiry and LRU eviction
+            cache[f'specific_user_{userid}'] = {
+                'result': result,
+                'expires_at': get_timestamp() + DEFAULT_CACHE_TTL,
+                'last_accessed_at': get_timestamp()
+            }
+            if len(cache) > MAX_CACHE_SIZE:
+                cache.popitem(last=False)
 
-    #     else:
-    #         return "No Data Found"
-        
-
-    def get_specific_user(self,userid):
-        user = (userid,)
-        self.cur.execute("SELECT * FROM users where name=%s",user)
-        result = self.cur.fetchall()
-        if len(result)>0:
-            return {"payload":result}
-
+        if len(result) > 0:
+            return {"payload": result}
         else:
             return "No Data Found"
         

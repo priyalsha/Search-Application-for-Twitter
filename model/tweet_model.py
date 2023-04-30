@@ -73,7 +73,7 @@ class tweet_model():
             end_time = time.time()
             delta = end_time - start_time
             print(f"Time taken to retrieve from Database is {delta} seconds")
-            
+
             if len(results)>0:
                 result = {"payload":results}
 
@@ -89,39 +89,6 @@ class tweet_model():
 
         return result
         
-
-        
-    # def hashtag_dates(self, hashtag, start, end):
-    #     dates = (hashtag, start, end, )
-    #     query = "select * from hashtags WHERE hashtag_text = %s and hashtag_created_at > %s and hashtag_created_at < %s;"
-    #     rows = self.session.execute(query, dates)
-    #     results = []
-    #     for row in rows:
-    #         results.append(dict(row._asdict()))
-
-    #     if len(results)>0:
-    #         return {"payload":results}
-
-    #     else:
-    #         return "No Data Found"
-        
-    # def word_find(self, word):
-    #     query = "SELECT tweet_id, tweet_text  FROM tweets"
-    #     rows = self.session.execute(query)
-    #     results = []
-    #     for row in rows:
-    #         results.append(dict(row._asdict()))
-
-    #     new_result = []
-    #     for i in results:
-    #         if word in i['tweet_text']:
-    #             new_result.append({i['tweet_id']:i['tweet_text']})
-
-    #     if len(new_result)>0:
-    #         return {"payload":new_result}
-
-    #     else:
-    #         return "No Data Found"
 
     def word_find(self, word):
         start_time = time.time()
